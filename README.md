@@ -12,7 +12,7 @@ The task was to create a pottery shop with the following features:
 
 ## How to run the app
 
-### npm install
+### `npm install`
 
 First of all, you should intsall some modules and libraries. Here is the list of them:
 
@@ -27,7 +27,7 @@ Also, you should check some TypeScript modules for these libraries.
 
 Then you should use next command to run the app:
 
-### npm start
+### `npm start`
 
 ## Database Snapshot
 <img width="1280" alt="Parceline_Firebase_API " src="https://user-images.githubusercontent.com/101280781/193468252-c0f0ba0f-1484-4342-85d6-146efdbaa254.png">
@@ -42,4 +42,4 @@ For this project, next libraries and tools have been chosen:
 - Redux Toolkit
 - React-router-dom
 - Firebase(Firebase Authentication, Firebase Firestore)
-Material UI
+- Material UI
