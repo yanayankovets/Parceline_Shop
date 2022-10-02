@@ -13,8 +13,23 @@ export const listSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<any>) => {
-      state.value = [...state.value, action.payload];
+    addItem: (state, { payload: newCartItem }: PayloadAction<any>) => {
+      const alreadyExistingItemInCart = state.value.find(
+        (cartItem: any) => cartItem.id == newCartItem.id
+      );
+
+      if (alreadyExistingItemInCart) {
+        state.value = state.value.map((cartItem: any) => {
+          return (cartItem.id = newCartItem.id
+            ? {
+                ...cartItem,
+                count: parseInt(cartItem.count) + parseInt(newCartItem.count),
+              }
+            : cartItem);
+        });
+        return;
+      }
+      state.value = [...state.value, newCartItem];
     },
     removeItem: (state, action: PayloadAction<any>) => {
       state.value = state.value.filter(
