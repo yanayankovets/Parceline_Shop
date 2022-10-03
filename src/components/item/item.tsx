@@ -26,6 +26,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../redux/hooks/reduxHooks";
 import { addItem } from "../redux/store/reducers/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { NotFoundPage } from "../notFoundPage/notFoundPage";
 
 export const Item = () => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ export const Item = () => {
 
   const el = useAppSelector((state) => state.chosenItem.value);
 
-  const elementDescription = el.otherInfo.split(".");
+  const elementDescription = el !== null ? el.otherInfo.split(".") : "";
 
   const handleOnClickAddToCart = (el: any) => {
     dispatch(addItem({ id: el.id, value: el, count: count }));
@@ -52,75 +53,79 @@ export const Item = () => {
 
   return (
     <ContainerShopStyled>
-      <BoxItemStyled>
-        <ImgItemStyled src={"data:image/jpeg;base64," + el.image} />
-
-        <Box>
-          <ShopNameItemStyled onClick={() => navigate("/")}>
-            Parceline
-          </ShopNameItemStyled>
-          <NameItemStyled>{el.name}</NameItemStyled>
-
-          <BoxPriceQuantityStyled>
-            <TextItemStyled>${el.price}.00</TextItemStyled>
-            <QuantityBlock>
-              <TextItemStyled>Quantity</TextItemStyled>
-              <BoxQuantityStyled
-                type={"number"}
-                value={count}
-                onChange={setNumberOfItems}
-              />
-            </QuantityBlock>
-          </BoxPriceQuantityStyled>
-
-          <ShareBoxStyled>
-            <ShareTextStyled>Share</ShareTextStyled>
-            <ShareLinkStyled href="https://www.facebook.com">
-              <FacebookIcon />
-            </ShareLinkStyled>
-
-            <ShareLinkStyled href="https://www.pinterest.com/">
-              <PinterestIcon />
-            </ShareLinkStyled>
-
-            <ShareLinkStyled href="mailto:info@parcelineceramique.com">
-              <MailOutlineIcon />
-            </ShareLinkStyled>
-          </ShareBoxStyled>
-
-          {!isAdded && cart.indexOf(el) < 0 ? (
-            <AddToCartButtonStyled
-              variant="contained"
-              onClick={() => handleOnClickAddToCart(el)}
-            >
-              Add to cart
-            </AddToCartButtonStyled>
-          ) : (
-            <AddToCartButtonStyled variant="contained" disabled>
-              Added
-            </AddToCartButtonStyled>
-          )}
-          <DescriptionItemStyled>{el.description}</DescriptionItemStyled>
-
-          <DimensionsStyled>
-            Dimensions :
-            <ParametersStyled>- diameter : {el.diameter}</ParametersStyled>
-            <ParametersStyled>- height : {el.height}</ParametersStyled>
-          </DimensionsStyled>
-
-          <ColorsStyled>
-            Colors:
-            <ParametersStyled>- bowl : grey (stoneware)</ParametersStyled>
-            <ParametersStyled>- drips : yellow</ParametersStyled>
-          </ColorsStyled>
+      {el !== null ? (
+        <BoxItemStyled>
+          <ImgItemStyled src={"data:image/jpeg;base64," + el.image} />
 
           <Box>
-            {elementDescription.map((el: any, id: number) => (
-              <OtherInfoStyled key={id}>{el}.</OtherInfoStyled>
-            ))}
+            <ShopNameItemStyled onClick={() => navigate("/")}>
+              Parceline
+            </ShopNameItemStyled>
+            <NameItemStyled>{el.name}</NameItemStyled>
+
+            <BoxPriceQuantityStyled>
+              <TextItemStyled>${el.price}.00</TextItemStyled>
+              <QuantityBlock>
+                <TextItemStyled>Quantity</TextItemStyled>
+                <BoxQuantityStyled
+                  type={"number"}
+                  value={count}
+                  onChange={setNumberOfItems}
+                />
+              </QuantityBlock>
+            </BoxPriceQuantityStyled>
+
+            <ShareBoxStyled>
+              <ShareTextStyled>Share</ShareTextStyled>
+              <ShareLinkStyled href="https://www.facebook.com">
+                <FacebookIcon />
+              </ShareLinkStyled>
+
+              <ShareLinkStyled href="https://www.pinterest.com/">
+                <PinterestIcon />
+              </ShareLinkStyled>
+
+              <ShareLinkStyled href="mailto:info@parcelineceramique.com">
+                <MailOutlineIcon />
+              </ShareLinkStyled>
+            </ShareBoxStyled>
+
+            {!isAdded && cart.indexOf(el) < 0 ? (
+              <AddToCartButtonStyled
+                variant="contained"
+                onClick={() => handleOnClickAddToCart(el)}
+              >
+                Add to cart
+              </AddToCartButtonStyled>
+            ) : (
+              <AddToCartButtonStyled variant="contained" disabled>
+                Added
+              </AddToCartButtonStyled>
+            )}
+            <DescriptionItemStyled>{el.description}</DescriptionItemStyled>
+
+            <DimensionsStyled>
+              Dimensions :
+              <ParametersStyled>- diameter : {el.diameter}</ParametersStyled>
+              <ParametersStyled>- height : {el.height}</ParametersStyled>
+            </DimensionsStyled>
+
+            <ColorsStyled>
+              Colors:
+              <ParametersStyled>- bowl : grey (stoneware)</ParametersStyled>
+              <ParametersStyled>- drips : yellow</ParametersStyled>
+            </ColorsStyled>
+
+            <Box>
+              {elementDescription.map((el: any, id: number) => (
+                <OtherInfoStyled key={id}>{el}.</OtherInfoStyled>
+              ))}
+            </Box>
           </Box>
-        </Box>
-      </BoxItemStyled>
+        </BoxItemStyled>
+      ) : (
+        <NotFoundPage />
+      )}
     </ContainerShopStyled>
   );
 };
