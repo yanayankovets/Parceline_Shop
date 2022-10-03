@@ -32,6 +32,13 @@ export const Item = () => {
   const dispatch = useAppDispatch();
   const [isAdded, setAdded] = useState(false);
   const [count, setCount] = useState(1);
+
+  const setNumberOfItems = ({ target }: any) => {
+    let { value } = target;
+    value = Math.max(Number(1), Math.min(Number(30), Number(value)));
+    setCount(value);
+  };
+
   let cart = useAppSelector((state) => state.list.value);
 
   const el = useAppSelector((state) => state.chosenItem.value);
@@ -61,11 +68,7 @@ export const Item = () => {
               <BoxQuantityStyled
                 type={"number"}
                 value={count}
-                onChange={(e: any) =>
-                  +e.target.value <= 50
-                    ? setCount(e.target.value)
-                    : setCount(50)
-                }
+                onChange={setNumberOfItems}
               />
             </QuantityBlock>
           </BoxPriceQuantityStyled>
